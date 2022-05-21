@@ -14,7 +14,7 @@ class HardDriveBridge extends FeedExpander {
 
 		protected function parseItem($newsItem){
     $item = parent::parseItem($newsItem);
-    $item['categories'] = parent::parseItem($newsItem->tags);
+    //$item['categories'] = parent::parseItem($newsItem->categories);
 
 		// --- Recovering the article ---
 
@@ -46,7 +46,7 @@ class HardDriveBridge extends FeedExpander {
 		$item['author'];     // Name of the author for this item
 		$item['content'] = $article;
 		$item['enclosures']; // Array of URIs to an attachments (pictures, files, etc...)
-		//$item['categories'];
+		$item['categories'];
 		$item['uid'];        // A unique ID to identify the current item
 
 		return $item;
