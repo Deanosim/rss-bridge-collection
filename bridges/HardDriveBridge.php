@@ -27,12 +27,6 @@ class HardDriveBridge extends FeedExpander {
 
 		// --- Fixing ugly elements ---
 
-		// Replace the image viewer and BS with the image itself
-		//foreach($articlePage->find('.attachment-full') as $uslElementLoc) {
-			//$main_img = $uslElementLoc->find('img', 0);
-			//$article = str_replace($uslElementLoc, $main_img, $article);
-		//}
-
 		// List of all the crap in the article
 		$uselessElements = array(
 			'div.post-content script'
