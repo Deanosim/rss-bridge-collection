@@ -12,17 +12,31 @@ class HardDriveBridge extends FeedExpander {
         $this->collectExpandableDatas('https://hard-drive.net/feed/');
     }
 
-		protected function parseItem($newsItem){
-    $item = parent::parseItem($newsItem);
-    //$item['categories'] = parent::parseItem($newsItem->categories);
+	protected function parseItem($newsItem){
+    	$item = parent::parseItem($newsItem);
+    
+		// Parse Categories
+		$categories = array();
+		foreach($newsItem->category as $cat) {
+				$categories[] = (string) $cat;
+		}
+
+		if (!empty($categories)) {
+				$item['categories'] = $categories;
+		}
+
+		// Parse uid
+		if (!empty($newsItem->guid)) {
+					$item['uid'] = (string) $newsItem->guid;
+		}
 
 		// --- Recovering the article ---
 
 		// $articlePage gets the entire page's contents
 		$articlePage = getSimpleHTMLDOM($newsItem->link);
-		// figure contain's the main article image
+		// featured-image contain's the main article image
 		$article = $articlePage->find('div.featured-image', 0);
-		// content__article-body has the actual article
+		// post-content has the actual article
 		foreach($articlePage->find('div.post-content') as $element)
 			$article = $article . $element;
 
@@ -40,14 +54,7 @@ class HardDriveBridge extends FeedExpander {
 			}
 		}
 
-		$item['uri'];        // URI to reach the subject ("https://...")
-		$item['title'];      // Title of the item
-		$item['timestamp'];  // Timestamp of the item in numeric or text format (compatible for strtotime())
-		$item['author'];     // Name of the author for this item
-		$item['content'] = $article;
-		$item['enclosures']; // Array of URIs to an attachments (pictures, files, etc...)
-		$item['categories'];
-		$item['uid'];        // A unique ID to identify the current item
+		$item['content'] = $article;    // A unique ID to identify the current item
 
 		return $item;
 	}
