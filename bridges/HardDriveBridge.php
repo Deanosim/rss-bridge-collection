@@ -35,7 +35,19 @@ class HardDriveBridge extends FeedExpander {
 		// $articlePage gets the entire page's contents
 		$articlePage = getSimpleHTMLDOM($newsItem->link);
 		// featured-image contain's the main article image
-		$article = $articlePage->find('div.featured-image', 0);
+		$article_image = $articlePage->find('img.wp-post-image[src]', 0);
+		$article = $articlePage->find('img.wp-post-image[src]', 0);
+		        
+        // Make a new array
+        $enclosures = array();
+        
+        // Add the article image URL to the array
+        // (we don't actually have the URL yet, just the HTML div containing it, but this is close enough for now lol)
+        $enclosures[] = $article_image;
+        
+        // Put the enclosures array into the RSS item
+        $item['enclosures'] = $enclosures;
+ 
 		// post-content has the actual article
 		foreach($articlePage->find('div.post-content') as $element)
 			$article = $article . $element;
