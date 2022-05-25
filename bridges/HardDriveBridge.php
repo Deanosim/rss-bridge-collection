@@ -54,7 +54,7 @@ class HardDriveBridge extends FeedExpander {
 			}
 		}
 
-		$item['content'] = $article;    // A unique ID to identify the current item
+		$item['content'] = $article;
 
 		return $item;
 	}
