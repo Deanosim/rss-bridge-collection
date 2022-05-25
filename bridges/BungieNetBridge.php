@@ -35,7 +35,8 @@ class BungieNetBridge extends FeedExpander {
 		// $articlePage gets the entire page's contents
 		$articlePage = getSimpleHTMLDOM($newsItem->link);
 		// featured-image contain's the main article image
-		$article_image = $articlePage->find('div.image', 0)->style;
+		$metatags = get_meta_tags($newsItem->link);
+		$article_image = $metatags['twitter:image'];
 
         // Make a new array
         $enclosures = array();
@@ -50,7 +51,7 @@ class BungieNetBridge extends FeedExpander {
 		foreach($articlePage->find('div.content.text-content') as $element)
 			$article = $article . $element;
 
-		$article .= $articlePage->find('div.image'. 0)->style;
+		$article .= $metatags['twitter:image'];
 		// --- Fixing ugly elements ---
 
 		// List of all the crap in the article
