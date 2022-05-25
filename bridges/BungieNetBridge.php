@@ -4,7 +4,7 @@ class BungieNetBridge extends FeedExpander {
 	const MAINTAINER = 'Deanosim';
 	const NAME = 'Bungie.net News Bridge';
 	const URI = 'https://www.bungie.net/en/news';
-	const DESCRIPTION = 'RSS Feed for Bungie.net news';
+	const DESCRIPTION = 'RSS Feed for Bungie.net and Destiny 2 News';
 	const PARAMETERS = array();
 	const CACHE_TIMEOUT = 10;
 
@@ -35,13 +35,23 @@ class BungieNetBridge extends FeedExpander {
 		// $articlePage gets the entire page's contents
 		$articlePage = getSimpleHTMLDOM($newsItem->link);
 		// featured-image contain's the main article image
-		$article = $articlePage->find('div.image.element.style.background-image', 0);
+		$article_image = $articlePage->find('div.image', 0)->style;
+
+        // Make a new array
+        $enclosures = array();
+        
+        // Add the article image URL to the array
+        $enclosures[] = $article_image;
+        
+        // Put the enclosures array into the RSS item
+        $item['enclosures'] = $enclosures;
+
 		// post-content has the actual article
 		foreach($articlePage->find('div.content.text-content') as $element)
 			$article = $article . $element;
 
+		$article .= $articlePage->find('div.image'. 0)->style;
 		// --- Fixing ugly elements ---
-		//$article->find('url')
 
 		// List of all the crap in the article
 		$uselessElements = array(
